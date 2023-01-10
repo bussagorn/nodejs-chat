@@ -1,0 +1,33 @@
+<body>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    <div id="comment">
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+        var comment = document.getElementById('comment');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message to commandline', input.value);
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message to page', function (msg) {
+            var tag = document.createElement('p');
+            tag.textContent = msg;
+            // comment.appendChild(tag);
+        });
+    </script>
+</body>
+
+</html>
